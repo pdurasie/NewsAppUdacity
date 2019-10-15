@@ -109,7 +109,7 @@ public class QueryUtils {
 
                 //there can be multiple authors, so we use an ArrayList
                 List<String> authors = new ArrayList<String>() {};
-                String finalAuthors ="";
+                String finalAuthors = "";
                 String date = currentResult.getString("webPublicationDate");
                 String title = currentResult.getString("webTitle");
                 String section = currentResult.getString("sectionName");

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">NewsAppUdacity</string>
+    <string name="unknown_author">Unknown author</string>
 </resources>

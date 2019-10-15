@@ -6,6 +6,7 @@ import android.app.LoaderManager;
 import android.content.Loader;
 import android.os.Bundle;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity
     implements LoaderManager.LoaderCallbacks<List<Story>>{
 
     private StoryAdapter mAdapter;
-    private GridView mGrid;
+    private ListView mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +27,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         mAdapter = new StoryAdapter(this, new ArrayList<Story>());
-        mGrid = findViewById(R.id.grid_view);
-        mGrid.setAdapter(mAdapter);
+        mList = findViewById(R.id.list_view);
+        mList.setAdapter(mAdapter);
 
         android.app.LoaderManager loaderManager = getLoaderManager();
         loaderManager.initLoader(1, null, this);
