@@ -7,6 +7,11 @@ public class Story {
     private String mAuthor = "Unknown author";
     private long mDate = -1L;
 
+    public Story(String title, String section){
+        mTitle = title;
+        mSection = section;
+    }
+
     public Story(String title, String section, String author, long date){
         mTitle = title;
         mSection = section;
