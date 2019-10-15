@@ -3,8 +3,12 @@ package com.example.android.newsappudacity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.LoaderManager;
+import android.content.Intent;
 import android.content.Loader;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,6 +36,18 @@ public class MainActivity extends AppCompatActivity
 
         android.app.LoaderManager loaderManager = getLoaderManager();
         loaderManager.initLoader(1, null, this);
+
+        final ListView storyListView = findViewById(R.id.list_view);
+
+        storyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Story clickedItem =
+                        (Story) storyListView.getItemAtPosition(position);
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(clickedItem.getUrl()));
+                startActivity(i);
+            }
+        });
     }
 
     @Override

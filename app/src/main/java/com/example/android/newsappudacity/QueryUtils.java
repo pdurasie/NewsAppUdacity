@@ -113,6 +113,7 @@ public class QueryUtils {
                 String date = currentResult.getString("webPublicationDate");
                 String title = currentResult.getString("webTitle");
                 String section = currentResult.getString("sectionName");
+                String url = currentResult.getString("webUrl");
 
                 JSONArray currentResultTags = currentResult.getJSONArray("tags");
                 if(currentResultTags.length() > 0) {
@@ -136,7 +137,7 @@ public class QueryUtils {
                         finalAuthors += authors.get(x);
                     }
                 }
-                stories.add(new Story(title, section, finalAuthors, date));
+                stories.add(new Story(title, section, finalAuthors, date, url));
             }
 
         } catch (JSONException e) {
