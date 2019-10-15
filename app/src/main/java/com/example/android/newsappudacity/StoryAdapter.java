@@ -1,6 +1,7 @@
 package com.example.android.newsappudacity;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class StoryAdapter extends ArrayAdapter<Story> {
 
@@ -41,8 +46,20 @@ public class StoryAdapter extends ArrayAdapter<Story> {
         }
 
         TextView date = convertView.findViewById(R.id.date);
-        date.setText(currentStory.getDate() );
+        try {
+            date.setText(formatDate(currentStory.getDate()));
+        } catch (ParseException e) {
+            Log.e("StoryAdapter", "Error formatting the time");
+            date.setText(currentStory.getDate());
+        }
 
         return convertView;
+    }
+
+    private String formatDate(String date) throws ParseException {
+        SimpleDateFormat inputDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        Date parsedDate = inputDate.parse(date);
+        SimpleDateFormat outputDate = new SimpleDateFormat("HH:mm, dd LLL, yyyy");
+        return outputDate.format(parsedDate);
     }
 }

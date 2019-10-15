@@ -11,7 +11,7 @@ import java.util.List;
 
 public class StoryLoader extends AsyncTaskLoader<List<Story>> {
 
-    public StoryLoader(Context context){
+    public StoryLoader(Context context) {
         super(context);
     }
 
@@ -25,8 +25,8 @@ public class StoryLoader extends AsyncTaskLoader<List<Story>> {
         URL url = QueryUtils.createURL();
         String jsonString = "";
         try {
-             jsonString = QueryUtils.getJsonResponse(url);
-        }catch (IOException e){
+            jsonString = QueryUtils.getJsonResponse(url);
+        } catch (IOException e) {
             Log.e("StoryLoader", "IOException thrown by Loader", e);
         }
         return QueryUtils.parseJSON(jsonString);
