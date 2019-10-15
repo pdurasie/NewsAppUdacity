@@ -22,13 +22,6 @@ public class QueryUtils {
 
     final static String SAMPLE_URL = "https://content.guardianapis.com/search?api-key=de12bde0-3860-421d-8ea1-ae3c3f53139b&show-tags=contributor";
 
-    public static Story makeRequest() throws IOException{
-        URL url = createURL(SAMPLE_URL);
-        String jsonString = getJsonResponse(url);
-        Story story = parseJSON(jsonString);
-        return story;
-    }
-
     public static URL createURL(String stringUrl){
         URL url = null;
         try {
@@ -61,7 +54,7 @@ public class QueryUtils {
                 Log.e("", "Response code is not 200" );
             }
         }catch (IOException e){
-            Log.e("", "IOException thrown", e);
+            Log.e("", "IOException thrown in getJsonResponse", e);
         } finally{
             //close everything if they existed
             if (urlConnection != null) {
