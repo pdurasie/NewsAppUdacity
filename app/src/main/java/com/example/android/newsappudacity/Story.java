@@ -9,7 +9,7 @@ public class Story {
     private String mUrl;
 
 
-    public Story(String title, String section, String author, String date, String url){
+    public Story(String title, String section, String author, String date, String url) {
         mTitle = title;
         mSection = section;
         mAuthor = author;

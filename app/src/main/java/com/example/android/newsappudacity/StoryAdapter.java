@@ -13,22 +13,21 @@ import androidx.annotation.Nullable;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class StoryAdapter extends ArrayAdapter<Story> {
 
-    public StoryAdapter(Activity context, ArrayList<Story> stories){
+    public StoryAdapter(Activity context, ArrayList<Story> stories) {
         super(context, 0, stories);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        if(convertView == null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(getContext())
-                    .inflate( R.layout.list_item, parent, false);
+                    .inflate(R.layout.list_item, parent, false);
         }
         Story currentStory = getItem(position);
 
@@ -39,9 +38,9 @@ public class StoryAdapter extends ArrayAdapter<Story> {
         section.setText(currentStory.getSection());
 
         TextView author = convertView.findViewById(R.id.author);
-        if(currentStory.getAuthor().equals("")){
+        if (currentStory.getAuthor().equals("")) {
             author.setText(R.string.unknown_author);
-        }else {
+        } else {
             author.setText(currentStory.getAuthor());
         }
 
@@ -59,7 +58,7 @@ public class StoryAdapter extends ArrayAdapter<Story> {
     private String formatDate(String date) throws ParseException {
         SimpleDateFormat inputDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         Date parsedDate = inputDate.parse(date);
-        SimpleDateFormat outputDate = new SimpleDateFormat("HH:mm, dd LLL, yyyy");
+        SimpleDateFormat outputDate = new SimpleDateFormat("HH:mm, dd. LLL, yyyy");
         return outputDate.format(parsedDate);
     }
 }

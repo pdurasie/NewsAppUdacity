@@ -2,7 +2,6 @@ package com.example.android.newsappudacity;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.IOException;

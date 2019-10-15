@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -104,11 +103,12 @@ public class QueryUtils {
             JSONObject guardianResponse = guardianJsonString.getJSONObject("response");
             JSONArray guardianResults = guardianResponse.getJSONArray("results");
 
-            for(int i = 0; i < guardianResults.length(); i++) {
+            for (int i = 0; i < guardianResults.length(); i++) {
                 JSONObject currentResult = guardianResults.getJSONObject(i);
 
                 //there can be multiple authors, so we use an ArrayList
-                List<String> authors = new ArrayList<String>() {};
+                List<String> authors = new ArrayList<String>() {
+                };
                 String finalAuthors = "";
                 String date = currentResult.getString("webPublicationDate");
                 String title = currentResult.getString("webTitle");
@@ -116,7 +116,7 @@ public class QueryUtils {
                 String url = currentResult.getString("webUrl");
 
                 JSONArray currentResultTags = currentResult.getJSONArray("tags");
-                if(currentResultTags.length() > 0) {
+                if (currentResultTags.length() > 0) {
                     //we could have multiple authors and therefore need this for loop
                     for (int y = 0; y < currentResultTags.length(); y++) {
                         JSONObject tag = currentResultTags.getJSONObject(y);
@@ -128,15 +128,16 @@ public class QueryUtils {
                     }
                 }
                 //concatenate all authors
-                for(int x = 0; x < authors.size(); x++){
+                for (int x = 0; x < authors.size(); x++) {
                     //if this condition is true, it means there are more authors to come
-                    if(x < authors.size() -1) {
+                    if (x < authors.size() - 1) {
                         finalAuthors += authors.get(x) + ", ";
-                    } else{
+                    } else {
                         //here we are at the last or the only author and don't need a comma
                         finalAuthors += authors.get(x);
                     }
                 }
+                //create new Story with all the fetched data and add to ArrayList
                 stories.add(new Story(title, section, finalAuthors, date, url));
             }
 

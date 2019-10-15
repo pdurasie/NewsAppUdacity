@@ -1,7 +1,5 @@
 package com.example.android.newsappudacity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
@@ -12,14 +10,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,12 +40,12 @@ public class MainActivity extends AppCompatActivity
 
         //Check for internet connectivity, if there is, initialize a loader
         ConnectivityManager cm =
-                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if(activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
+        if (activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
             android.app.LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(1, null, this);
-        } else{
+        } else {
             progressBar.setVisibility(View.GONE);
             emptyView.setText(R.string.no_internet);
         }
@@ -77,7 +73,7 @@ public class MainActivity extends AppCompatActivity
         progressBar.setVisibility(View.GONE);
         if (stories != null && !stories.isEmpty()) {
             mAdapter.addAll(stories);
-        }else{
+        } else {
             emptyView.setText(R.string.empty_view);
         }
     }

@@ -1,40 +1,36 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/list_item"
+    android:layout_width="match_parent"
     android:layout_height="100dp">
 
     <TextView
         android:id="@+id/title"
         style="@style/headline_in_list"
-        android:textStyle="bold"
-        tools:text="This is the title" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/author"
         style="@style/metadata_in_list"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@id/date"
         android:layout_below="@id/title"
-        android:textStyle="italic"
-        tools:text="This is the author" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_toLeftOf="@id/date"
+        android:textStyle="italic" />
 
     <TextView
         android:id="@+id/date"
         style="@style/metadata_in_list"
-        android:layout_alignParentRight="true"
         android:layout_above="@id/section"
-        tools:text="This is the date" />
+        android:layout_alignParentRight="true" />
 
 
     <TextView
         android:id="@+id/section"
         style="@style/metadata_in_list"
-        android:layout_marginBottom="8dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        tools:text="This is the section" />
+        android:layout_marginBottom="8dp" />
 
 </RelativeLayout>
