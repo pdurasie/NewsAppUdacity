@@ -21,7 +21,7 @@ public class StoryLoader extends AsyncTaskLoader<Story> {
 
     @Override
     public Story loadInBackground() {
-        URL url = QueryUtils.createURL(QueryUtils.SAMPLE_URL);
+        URL url = QueryUtils.createURL();
         String jsonString = "";
         try {
              jsonString = QueryUtils.getJsonResponse(url);

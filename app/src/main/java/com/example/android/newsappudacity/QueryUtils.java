@@ -1,5 +1,6 @@
 package com.example.android.newsappudacity;
 
+import android.net.Uri;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -20,12 +21,20 @@ public class QueryUtils {
     //private constructor, because we only need access to static methods
     private QueryUtils(){}
 
-    final static String SAMPLE_URL = "https://content.guardianapis.com/search?api-key=de12bde0-3860-421d-8ea1-ae3c3f53139b&show-tags=contributor";
+    public static URL createURL(){
 
-    public static URL createURL(String stringUrl){
+    //as shown in StackOverflow question "Use URI builder in Android or create URL with variables"
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority("content.guardianapis.com")
+                .appendPath("search")
+                .appendQueryParameter("tag", "environment/climate-change")
+                .appendQueryParameter("api-key", "de12bde0-3860-421d-8ea1-ae3c3f53139b")
+                .appendQueryParameter("show-tags", "contributor");
+
         URL url = null;
         try {
-            url = new URL(stringUrl);
+            url = new URL(builder.build().toString());
         } catch (MalformedURLException e) {
             Log.e("", "Error creating the URL", e);
         }
