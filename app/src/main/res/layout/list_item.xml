@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/list_item"
-    android:layout_height="120dp">
+    android:layout_height="100dp">
 
     <TextView
         android:id="@+id/title"
@@ -12,15 +12,18 @@
 
     <TextView
         android:id="@+id/author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/metadata_in_list"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/date"
         android:layout_below="@id/title"
+        android:textStyle="italic"
         tools:text="This is the author" />
 
     <TextView
         android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/metadata_in_list"
         android:layout_alignParentRight="true"
         android:layout_above="@id/section"
         tools:text="This is the date" />
@@ -28,8 +31,8 @@
 
     <TextView
         android:id="@+id/section"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/metadata_in_list"
+        android:layout_marginBottom="8dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         tools:text="This is the section" />
