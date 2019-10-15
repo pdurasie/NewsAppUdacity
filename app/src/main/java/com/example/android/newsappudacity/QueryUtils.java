@@ -1,30 +1,123 @@
 package com.example.android.newsappudacity;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
+
 public class QueryUtils {
 
-    final static String SAMPLE_GUARDIAN_JSON = "{\"response\":{\"status\":\"ok\",\"userTier\":\"developer\",\"total\":25723,\"startIndex\":1,\"pageSize\":10,\"currentPage\":1,\"pages\":2573,\"orderBy\":\"relevance\",\"results\":[{\"id\":\"world/2019/sep/24/france-debates-law-lesbians-single-women-ivf\",\"type\":\"article\",\"sectionId\":\"world\",\"sectionName\":\"World news\",\"webPublicationDate\":\"2019-09-24T16:11:10Z\",\"webTitle\":\"France debates law to let lesbians and single women have IVF\",\"webUrl\":\"https://www.theguardian.com/world/2019/sep/24/france-debates-law-lesbians-single-women-ivf\",\"apiUrl\":\"https://content.guardianapis.com/world/2019/sep/24/france-debates-law-lesbians-single-women-ivf\",\"isHosted\":false,\"pillarId\":\"pillar/news\",\"pillarName\":\"News\"},{\"id\":\"us-news/2019/jul/31/healthcare-democrats-2020-debates-detroit\",\"type\":\"article\",\"sectionId\":\"us-news\",\"sectionName\":\"US news\",\"webPublicationDate\":\"2019-07-31T19:39:21Z\",\"webTitle\":\"Democratic debates: how healthcare is defining and dividing 2020 candidates\",\"webUrl\":\"https://www.theguardian.com/us-news/2019/jul/31/healthcare-democrats-2020-debates-detroit\",\"apiUrl\":\"https://content.guardianapis.com/us-news/2019/jul/31/healthcare-democrats-2020-debates-detroit\",\"isHosted\":false,\"pillarId\":\"pillar/news\",\"pillarName\":\"News\"},{\"id\":\"commentisfree/2019/may/11/missing-ingredient-debates-generosity-labour-antisemitism\",\"type\":\"article\",\"sectionId\":\"commentisfree\",\"sectionName\":\"Opinion\",\"webPublicationDate\":\"2019-05-11T05:00:12Z\",\"webTitle\":\"The missing ingredient in today’s debates? Generosity | Gary Younge\",\"webUrl\":\"https://www.theguardian.com/commentisfree/2019/may/11/missing-ingredient-debates-generosity-labour-antisemitism\",\"apiUrl\":\"https://content.guardianapis.com/commentisfree/2019/may/11/missing-ingredient-debates-generosity-labour-antisemitism\",\"isHosted\":false,\"pillarId\":\"pillar/opinion\",\"pillarName\":\"Opinion\"},{\"id\":\"us-news/2019/jun/26/democratic-debate-2019-watch-2020-election-when-where-who\",\"type\":\"article\",\"sectionId\":\"us-news\",\"sectionName\":\"US news\",\"webPublicationDate\":\"2019-06-27T20:23:02Z\",\"webTitle\":\"Democratic debates 2019: everything you need to know\",\"webUrl\":\"https://www.theguardian.com/us-news/2019/jun/26/democratic-debate-2019-watch-2020-election-when-where-who\",\"apiUrl\":\"https://content.guardianapis.com/us-news/2019/jun/26/democratic-debate-2019-watch-2020-election-when-where-who\",\"isHosted\":false,\"pillarId\":\"pillar/news\",\"pillarName\":\"News\"},{\"id\":\"us-news/2019/sep/10/presidential-debates-2020-houston-gun-control\",\"type\":\"article\",\"sectionId\":\"us-news\",\"sectionName\":\"US news\",\"webPublicationDate\":\"2019-09-10T06:00:42Z\",\"webTitle\":\"As Houston readies to host the next 2020 debates, focus turns to gun control\",\"webUrl\":\"https://www.theguardian.com/us-news/2019/sep/10/presidential-debates-2020-houston-gun-control\",\"apiUrl\":\"https://content.guardianapis.com/us-news/2019/sep/10/presidential-debates-2020-houston-gun-control\",\"isHosted\":false,\"pillarId\":\"pillar/news\",\"pillarName\":\"News\"},{\"id\":\"commentisfree/2019/jun/29/democratic-debate-kamala-harris-elizabeth-warren-trump\",\"type\":\"article\",\"sectionId\":\"commentisfree\",\"sectionName\":\"Opinion\",\"webPublicationDate\":\"2019-06-29T10:00:46Z\",\"webTitle\":\"Who won the Democratic debates? Kamala Harris, Elizabeth Warren – and Trump | Cas Mudde\",\"webUrl\":\"https://www.theguardian.com/commentisfree/2019/jun/29/democratic-debate-kamala-harris-elizabeth-warren-trump\",\"apiUrl\":\"https://content.guardianapis.com/commentisfree/2019/jun/29/democratic-debate-kamala-harris-elizabeth-warren-trump\",\"isHosted\":false,\"pillarId\":\"pillar/opinion\",\"pillarName\":\"Opinion\"},{\"id\":\"us-news/2019/jul/18/democratic-debates-biden-harris-bernie-warren-2020\",\"type\":\"article\",\"sectionId\":\"us-news\",\"sectionName\":\"US news\",\"webPublicationDate\":\"2019-07-19T01:45:58Z\",\"webTitle\":\"Democratic debates: Biden and Harris will face off again in second round\",\"webUrl\":\"https://www.theguardian.com/us-news/2019/jul/18/democratic-debates-biden-harris-bernie-warren-2020\",\"apiUrl\":\"https://content.guardianapis.com/us-news/2019/jul/18/democratic-debates-biden-harris-bernie-warren-2020\",\"isHosted\":false,\"pillarId\":\"pillar/news\",\"pillarName\":\"News\"},{\"id\":\"us-news/2019/jun/26/us-briefing-border-patrol-chief-quits-democrat-debates-and-mueller\",\"type\":\"article\",\"sectionId\":\"us-news\",\"sectionName\":\"US news\",\"webPublicationDate\":\"2019-06-26T10:27:06Z\",\"webTitle\":\"US briefing: border patrol chief quits, Democrat debates and Mueller\",\"webUrl\":\"https://www.theguardian.com/us-news/2019/jun/26/us-briefing-border-patrol-chief-quits-democrat-debates-and-mueller\",\"apiUrl\":\"https://content.guardianapis.com/us-news/2019/jun/26/us-briefing-border-patrol-chief-quits-democrat-debates-and-mueller\",\"isHosted\":false,\"pillarId\":\"pillar/news\",\"pillarName\":\"News\"},{\"id\":\"politics/2019/jun/21/jeremy-hunt-calls-for-live-tv-debates-before-tory-voting-begins\",\"type\":\"article\",\"sectionId\":\"politics\",\"sectionName\":\"Politics\",\"webPublicationDate\":\"2019-06-21T21:30:54Z\",\"webTitle\":\"Jeremy Hunt calls for live TV debates before Tory voting begins\",\"webUrl\":\"https://www.theguardian.com/politics/2019/jun/21/jeremy-hunt-calls-for-live-tv-debates-before-tory-voting-begins\",\"apiUrl\":\"https://content.guardianapis.com/politics/2019/jun/21/jeremy-hunt-calls-for-live-tv-debates-before-tory-voting-begins\",\"isHosted\":false,\"pillarId\":\"pillar/news\",\"pillarName\":\"News\"},{\"id\":\"commentisfree/2019/aug/03/democratic-debates-control-trump-campaign\",\"type\":\"article\",\"sectionId\":\"commentisfree\",\"sectionName\":\"Opinion\",\"webPublicationDate\":\"2019-08-03T10:00:46Z\",\"webTitle\":\"The Democratic party must control the debates – or they play into Trump's hands | Cas Mudde\",\"webUrl\":\"https://www.theguardian.com/commentisfree/2019/aug/03/democratic-debates-control-trump-campaign\",\"apiUrl\":\"https://content.guardianapis.com/commentisfree/2019/aug/03/democratic-debates-control-trump-campaign\",\"isHosted\":false,\"pillarId\":\"pillar/opinion\",\"pillarName\":\"Opinion\"}]}}";
+    //private constructor, because we only need access to static methods
+    private QueryUtils(){}
 
-    public static Story parseJSON() {
-            try {
-                JSONObject guardianJsonString = new JSONObject(SAMPLE_GUARDIAN_JSON);
-                JSONObject guardianResponse = guardianJsonString.getJSONObject("response");
-                JSONArray guardianResults = guardianResponse.getJSONArray("results");
-                JSONObject currentResult = guardianResults.getJSONObject(0);
+    final static String SAMPLE_URL = "https://content.guardianapis.com/search?api-key=de12bde0-3860-421d-8ea1-ae3c3f53139b&show-tags=contributor";
 
-                String title = currentResult.getString("webTitle");
-                String section = currentResult.getString("sectionName");
-                return new Story(title, section);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return new Story("Failure", "Miserable");
+    public static Story makeRequest() throws IOException{
+        URL url = createURL(SAMPLE_URL);
+        String jsonString = getJsonResponse(url);
+        Story story = parseJSON(jsonString);
+        return story;
     }
 
+    public static URL createURL(String stringUrl){
+        URL url = null;
+        try {
+            url = new URL(stringUrl);
+        } catch (MalformedURLException e) {
+            Log.e("", "Error creating the URL", e);
+        }
+        return url;
+    }
 
+    public static String getJsonResponse(URL url) throws IOException {
+        String jsonResponse = "";
+        if(url == null){
+            return jsonResponse;
+        }
+
+        HttpURLConnection urlConnection = null;
+        InputStream inputStream = null;
+        try{
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setReadTimeout(10000);
+            urlConnection.setConnectTimeout(15000);
+            urlConnection.connect();
+            // Validate the server response
+            if(urlConnection.getResponseCode() == 200){
+                inputStream = urlConnection.getInputStream();
+                jsonResponse = readInputStream(inputStream);
+            }else{
+                Log.e("", "Response code is not 200" );
+            }
+        }catch (IOException e){
+            Log.e("", "IOException thrown", e);
+        } finally{
+            //close everything if they existed
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+            if(inputStream != null){
+                inputStream.close();
+            }
+        }
+        return jsonResponse;
+    }
+
+    private static String readInputStream(InputStream inputStream)throws IOException{
+        StringBuilder output = new StringBuilder();
+        if (inputStream != null){
+            InputStreamReader streamReader =
+                    new InputStreamReader(inputStream, Charset.forName("UTF-8"));
+            BufferedReader reader = new BufferedReader(streamReader);
+            String line = reader.readLine();
+            while(line != null){
+                output.append(line);
+                line = reader.readLine();
+            }
+        }
+        return output.toString();
+    }
+
+    public static Story parseJSON(String fetchedJson) {
+        try {
+            JSONObject guardianJsonString = new JSONObject(fetchedJson);
+            JSONObject guardianResponse = guardianJsonString.getJSONObject("response");
+            JSONArray guardianResults = guardianResponse.getJSONArray("results");
+            JSONObject currentResult = guardianResults.getJSONObject(0);
+
+            String author = "";
+            String date = currentResult.getString("webPublicationDate");
+            String title = currentResult.getString("webTitle");
+            String section = currentResult.getString("sectionName");
+
+            JSONArray currentResultTags = currentResult.getJSONArray("tags");
+            for (int i = 0; i < currentResultTags.length(); i++) {
+                JSONObject tag = currentResultTags.getJSONObject(i);
+                String type = tag.getString("type");
+                if (type.equals("contributor")){
+                    author = tag.getString("webTitle");
+                    //the author tag is all we need, so we break the for loop
+                    break;
+                }
+            }
+
+            return new Story(title, section, author, date);
+
+        } catch (JSONException e) {
+            Log.e("QueryUtils", "Error parsing the JSON data");
+        }
+        return null;
+    }
 
 }

@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -17,7 +19,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateUI(){
-        Story story = QueryUtils.parseJSON();
+
+        Story story = null;
+        try {
+            story = QueryUtils.makeRequest();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         TextView title = findViewById(R.id.title);
         title.setText(story.getTitle());
@@ -27,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
         TextView author = findViewById(R.id.author);
         author.setText(story.getAuthor());
-        
+
         TextView date = findViewById(R.id.date);
-        date.setText(Long.toString( (story.getDate()) ) );
+        date.setText(story.getDate() );
     }
 }

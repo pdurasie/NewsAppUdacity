@@ -4,15 +4,11 @@ public class Story {
 
     private String mTitle;
     private String mSection;
-    private String mAuthor = "Unknown author";
-    private long mDate = -1L;
+    private String mAuthor;
+    private String mDate;
 
-    public Story(String title, String section){
-        mTitle = title;
-        mSection = section;
-    }
 
-    public Story(String title, String section, String author, long date){
+    public Story(String title, String section, String author, String date){
         mTitle = title;
         mSection = section;
         mAuthor = author;
@@ -31,7 +27,7 @@ public class Story {
         return mAuthor;
     }
 
-    public long getDate() {
+    public String getDate() {
         return mDate;
     }
 }
