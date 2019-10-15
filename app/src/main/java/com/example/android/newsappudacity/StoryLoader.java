@@ -7,8 +7,9 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
-public class StoryLoader extends AsyncTaskLoader<Story> {
+public class StoryLoader extends AsyncTaskLoader<List<Story>> {
 
     public StoryLoader(Context context){
         super(context);
@@ -20,7 +21,7 @@ public class StoryLoader extends AsyncTaskLoader<Story> {
     }
 
     @Override
-    public Story loadInBackground() {
+    public List<Story> loadInBackground() {
         URL url = QueryUtils.createURL();
         String jsonString = "";
         try {
